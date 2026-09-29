@@ -1,0 +1,28 @@
+# Real baby data — never commit (public repo)
+data/
+*.xlsx
+*.xls
+*.csv
+
+# Personal PM profile — stays local
+R-Relationships/Me/
+
+# AI-SHIPR framework files (third-party IP) — local only
+A-AI/
+.claude/
+I-Information/Templates/
+Half-Sprint-Guide.md
+AI-SHIPR Setup Worksheet.md
+CLAUDE.md
+Settings.md
+*-Template.md
+P-Proof/README.md
+I-Initiatives/README.md
+
+# System / tooling
+.DS_Store
+.obsidian/
+node_modules/
+dist/
+.env
+.env.*
