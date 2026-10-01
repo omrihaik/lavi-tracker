@@ -9,7 +9,7 @@ Update when a bet is confirmed or killed.
 ## Bet 1 — Speed drives completeness
 
 - **Why this matters:** Events get lost because logging is slow at the worst moments. If logging takes ≤ 3 taps, we stop skipping it — and complete data is what makes every insight possible.
-- **Who it serves:** The parent holding Lavi at 3 a.m.
+- **Who it serves:** The parent holding Lavie at 3 a.m.
 - **What success looks like:** Complete sleep logs rise from ~36% to ≥ 80%; wake-ups logged rise from 65% to ≥ 95%.
 - **Time horizon:** 4 weeks after the logger is in daily use
 

@@ -17,7 +17,7 @@ Agents read this when planning sprints or sequencing initiatives to avoid plans 
 - **One-handed, at night.** Dark mode, large tap targets.
 - **Real-time sync between two phones is required** — without it, Bet 2 fails.
 - **Hebrew UI, right-to-left.**
-- **Public repo, private data.** Code is public; Lavi's data must live outside the repo, behind login. No real data in commits, ever.
+- **Public repo, private data.** Code is public; Lavie's data must live outside the repo, behind login. No real data in commits, ever.
 - **Excel import is required.** The ~2 weeks of existing data (23 free-text labels) must be mapped into the 3 event types once.
 
 ## Budget / Life constraints

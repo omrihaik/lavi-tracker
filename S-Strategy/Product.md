@@ -8,17 +8,17 @@ Update when your audience or product scope changes.
 
 ## Description (1–2 sentences)
 
-A shared, phone-first tracker for Lavi's sleep, feeding and activity. Two parents log events in 2–3 taps, see a live status ("last fed 2h 10m ago"), and get one insights screen that answers five questions.
+A shared, phone-first tracker for Lavie's sleep, feeding and activity. Two parents log events in 2–3 taps, see a live status ("last fed 2h 10m ago"), and get one insights screen that answers five questions.
 
 ## Target customer segment(s)
 
-- **Primary:** Lavi's two parents — both log, mainly from their phones, often one-handed and at night.
-- **Baby:** Lavi, born 2026-07-09 (~12 weeks old at project start).
+- **Primary:** Lavie's two parents — both log, mainly from their phones, often one-handed and at night.
+- **Baby:** Lavie, born 2026-07-09 (~12 weeks old at project start).
 - **Not a segment (for now):** other families, caregivers, grandparents. One baby, two users.
 
 ## Core user problem
 
-1. **Logging is slow at the worst moments.** At 3 a.m., holding Lavi, finding the 03:15 row in Excel and typing takes too long.
+1. **Logging is slow at the worst moments.** At 3 a.m., holding Lavie, finding the 03:15 row in Excel and typing takes too long.
 2. **The two parents are out of sync.** "When did he last eat?" requires asking the other parent instead of looking.
 3. **Events get lost.** Both parents confirm logs are skipped (see baseline below).
 4. **The data can't answer our questions.** 23 free-text labels for ~6 event types, mixed date formats, no sleep duration.

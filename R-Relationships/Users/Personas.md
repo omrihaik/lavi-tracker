@@ -1,6 +1,6 @@
 # Personas
 
-The two users of Lavi Tracker. Names are omitted — this repo is public.
+The two users of LavieTracker. Names are omitted — this repo is public.
 
 ---
 

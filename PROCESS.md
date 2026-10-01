@@ -1,12 +1,12 @@
 # Process Log
 
-How Lavi Tracker was built — each step, what was decided, and why.
+How LavieTracker was built — each step, what was decided, and why.
 
 ---
 
 ## Step 0 — Setup (2026-09-29)
 
-**What:** Created a dedicated AI-SHIPR instance for Lavi Tracker and a Git repository.
+**What:** Created a dedicated AI-SHIPR instance for LavieTracker and a Git repository.
 
 **Decisions:**
 - **One repo for product + code.** Strategy docs and app code live together so a PR can reference the hypothesis or initiative it serves.
@@ -31,7 +31,7 @@ How Lavi Tracker was built — each step, what was decided, and why.
 
 **Decisions:**
 - **Three questions, not four.** "Does bath time help?" dropped — bath is out of scope.
-- **Compare Lavi to himself**, not to age norms (keeps us away from medical data).
+- **Compare Lavie to himself**, not to age norms (keeps us away from medical data).
 - **"Best bedtime" = fastest to fall asleep** → put-down must be logged, not optional.
 - **One insights screen**, not a dashboard per activity.
 - **Three event types only:** sleep, feeding (with ml), put-down (with crying yes/no).
