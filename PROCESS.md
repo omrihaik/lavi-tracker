@@ -22,3 +22,23 @@ How Lavi Tracker was built — each step, what was decided, and why.
 - Valuable context captured only as free text ("השכבה מלווה בבכי והתנגדות").
 
 **Git learned:** `git init`, `.gitignore`, first commit, push to GitHub.
+
+---
+
+## Step 1 — Strategy (2026-10-01)
+
+**What:** Filled the five `S-Strategy/` files through two rounds of questions, with gaps flagged before accepting answers.
+
+**Decisions:**
+- **Three questions, not four.** "Does bath time help?" dropped — bath is out of scope.
+- **Compare Lavi to himself**, not to age norms (keeps us away from medical data).
+- **"Best bedtime" = fastest to fall asleep** → put-down must be logged, not optional.
+- **One insights screen**, not a dashboard per activity.
+- **Three event types only:** sleep, feeding (with ml), put-down (with crying yes/no).
+- **North Star = complete sleep logs** (put-down + asleep + woke up). Baseline 36%, target ≥ 80%.
+
+**Gap that shaped the strategy:** the Excel baseline showed only 36% of sleeps have a put-down logged — so "best bedtime" is unanswerable today. That made data completeness, not dashboards, the North Star.
+
+**Scope change (same day):** added "How are feedings going?" (Good / OK / Hard rating) and Activity as a 4th event type (tummy time, trampoline, skin to skin, talking — one tap, no duration). Each addition was accepted only after naming the question it answers.
+
+**Git learned:** a second commit on top of the first — `git diff`, then commit + push.
