@@ -1,6 +1,6 @@
 # Lavi Tracker
 
-A baby tracking app (sleep, feeding, activity) built step by step with the **AI-SHIPR** product operating system — from strategy to shipped code.
+A baby tracking app (sleep, feeding, activity) built step by step with the AI product operating system — from strategy to shipped code.
 
 This repo holds both the product thinking and the code, so every line of code can be traced back to a product decision.
 
