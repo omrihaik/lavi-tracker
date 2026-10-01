@@ -41,4 +41,23 @@ How LavieTracker was built — each step, what was decided, and why.
 
 **Scope change (same day):** added "How are feedings going?" (Good / OK / Hard rating) and Activity as a 4th event type (tummy time, trampoline, skin to skin, talking — one tap, no duration). Each addition was accepted only after naming the question it answers.
 
-**Git learned:** a second commit on top of the first — `git diff`, then commit + push.
+**Git learned:** a second commit on top of the first — `git diff`, then commit + push. Also: a rejected push after editing on the GitHub website → `git pull --rebase`, then push.
+
+---
+
+## Step 3 — Hypotheses (2026-10-01)
+
+**What:** Turned each Strategic Bet into falsifiable hypotheses (`H-Hypotheses/HYP-01…04`). Each has a metric, a success threshold, a failure threshold, and a time limit.
+
+| ID | Claim | Risk |
+|---|---|---|
+| HYP-01 | ≤ 3 taps raises complete sleep logs 36% → ≥ 80% in 4 weeks | High |
+| HYP-02 | Feeding with ml + rating stays at 3 taps, logged ≥ 90% | Medium |
+| HYP-03 | Shared live status → both parents log ≥ 25%, stop asking | High |
+| HYP-04 | Structured events answer all 5 questions, no cleanup | Low |
+
+**Key insight:** the riskiest assumption isn't speed — it's *memory*. Put-down is forgotten because Lavie falls asleep in arms, not because logging is slow. HYP-01's failure threshold names the fallback.
+
+**Requirement discovered:** the app must measure its own hypotheses — who logged each event, which fields were filled, completeness per week.
+
+**Persona decision:** Parent 1 answered for both parents → one shared persona. Accepted as a known risk (a proxy, not an interview); HYP-03's data will validate it, and a < 10% share for Parent 2 triggers a direct interview.
