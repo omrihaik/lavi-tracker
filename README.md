@@ -1,4 +1,4 @@
-# Lavi Tracker
+# LavieTracker
 
 A baby tracking app (sleep, feeding, activity) built step by step with the AI product operating system — from strategy to shipped code.
 
