@@ -7,7 +7,7 @@
 - Bet 2 — A shared live status replaces asking each other
 
 ## Related Initiative
-- _TBD — Step 4_
+- [[I-Initiatives/I-02-shared-live-status]]
 
 ## Risk Level
 High — Parent 2's profile comes from Parent 1's description, not a direct interview. Accepted risk; the app data will show it within 2 weeks.

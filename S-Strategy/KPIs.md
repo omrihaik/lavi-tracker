@@ -9,15 +9,15 @@ Update each planning cycle.
 ## North Star Metric
 
 - **Name:** Complete sleep logs
-- **Definition:** % of sleeps in a week that have all three parts logged — put-down, fell asleep, woke up. This is the minimum data needed to answer all three questions.
-- **Current:** ~36% (Excel baseline — limited by put-down logging)
-- **Target:** ≥ 80% within 4 weeks of daily use
+- **Definition:** % of sleeps in a week with both "fell asleep" and "woke up" logged. Put-down is optional (decided 2026-11-02 — "fell asleep in arms" needs no put-down).
+- **Current:** 65% (Excel baseline)
+- **Target:** ≥ 95% within 4 weeks of daily use
 
 ## Supporting Metrics (max 3–5)
 
-1. **Sleeps with a recorded wake-up**
-   - Definition: % of sleeps with both start and end logged.
-   - Current: 65% / Target: ≥ 95%
+1. **Sleeps with a put-down logged** (feeds Q2 — best bedtime)
+   - Definition: % of sleeps preceded by a put-down. Optional by design; tracked so we know if Q2 has enough data.
+   - Current: 36% / Target: none — watch only
 
 2. **Complete feeding logs**
    - Definition: % of feeding events that include both an ml amount and an experience rating.

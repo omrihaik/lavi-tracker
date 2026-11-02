@@ -7,7 +7,8 @@
 - Bet 3 — Structured events make insights automatic
 
 ## Related Initiative
-- _TBD — Step 4_
+- [[I-Initiatives/I-03-excel-import]]
+- [[I-Initiatives/I-04-insights-screen]]
 
 ## Risk Level
 Low — mostly an engineering question, once HYP-01 and HYP-02 deliver complete data.

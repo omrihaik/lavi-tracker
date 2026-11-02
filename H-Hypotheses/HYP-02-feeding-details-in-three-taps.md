@@ -8,7 +8,7 @@
 - Bet 3 — Structured events make insights automatic
 
 ## Related Initiative
-- _TBD — Step 4_
+- [[I-Initiatives/I-01-fast-logger]]
 
 ## Risk Level
 Medium — the scope change (rating added) costs a tap; this checks we didn't break the 3-tap promise.

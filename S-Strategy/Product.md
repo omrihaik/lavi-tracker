@@ -28,7 +28,7 @@ A shared, phone-first tracker for Lavie's sleep, feeding and activity. Two paren
 | # | Question | Measured as |
 |---|---|---|
 | 1 | Is he sleeping enough? | Total sleep per 24h vs. his own 7-day average (no age norms) |
-| 2 | What's the best bedtime? | Put-down time slot with the shortest put-down → asleep time |
+| 2 | What's the best bedtime? | Put-down time slot with the shortest put-down → asleep time (only sleeps that had a put-down) |
 | 3 | Is it getting better? | Week-over-week change in total sleep and time-to-fall-asleep |
 | 4 | How are feedings going? | Share of Good / OK / Hard feedings, week over week |
 | 5 | Does activity help him sleep? | Time-to-fall-asleep after an activity vs. without one; activities per day |
@@ -41,7 +41,7 @@ Dropped: "Does bath time help?" — not needed.
 |---|---|---|
 | Sleep | fell asleep, woke up | Q1, Q3 — sleep duration |
 | Feeding | time, amount (ml), experience (Good / OK / Hard) | Live status "last fed"; Q4 |
-| Put-down | time, with crying/resistance (yes/no) | Q2, Q5 — time to fall asleep starts here |
+| Put-down | time, with crying/resistance (yes/no) — **optional** | Q2, Q5 — time to fall asleep starts here |
 | Activity | time, type: tummy time / trampoline / skin to skin / talking | Q5 — one tap, no duration |
 
 ## Baseline (Excel, 13.9–28.9, 384 rows)
@@ -56,4 +56,4 @@ Q2 needs put-down + sleep pairs — today only about 1 in 3 sleeps has one.
 
 ## Current alternative
 
-A shared Excel file (`data/`, git-ignored), filled from phones.
+A shared Google Sheet, filled from phones — still in use as of 2026-11-02. A September export lives in `data/` (git-ignored). The sheet's link is private and never goes into this repo.

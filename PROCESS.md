@@ -60,4 +60,45 @@ How LavieTracker was built — each step, what was decided, and why.
 
 **Requirement discovered:** the app must measure its own hypotheses — who logged each event, which fields were filled, completeness per week.
 
-**Persona decision:** Parent 1 answered for both parents → one shared persona. Accepted as a known risk (a proxy, not an interview); HYP-03's data will validate it, and a < 10% share for Parent 2 triggers a direct interview.
+**Persona decision (Step 2):** Parent 1 answered for both parents → one shared persona. Accepted as a known risk (a proxy, not an interview); HYP-03's data will validate it, and a < 10% share for Parent 2 triggers a direct interview.
+
+---
+
+## Step 4 — Initiatives (2026-11-02)
+
+**What:** Four initiatives in `I-Initiatives/`, each linked to a bet and a hypothesis. Hypotheses now link back to their initiatives.
+
+| ID | Initiative | Bet | Hypotheses | Milestone |
+|---|---|---|---|---|
+| I-01 | Fast Logger | 1 | HYP-01, HYP-02 | MVP |
+| I-02 | Shared Live Status | 2 | HYP-03 | MVP |
+| I-03 | Excel Import | 3 | HYP-04 | v1 — Insights |
+| I-04 | Insights Screen | 3 | HYP-04 | v1 — Insights |
+
+**Decisions:**
+- **I-01 and I-02 ship together as the MVP.** A logger on one phone is abandoned within a day — sync is not a "later" feature.
+- **Excel import moved after the MVP.** It's needed for insights, not for logging; doing it first would delay the thing we use every day.
+- **Insights wait for ~2 weeks of complete data.** Insights on incomplete data would mislead.
+- **Open decision (I-02):** sync/database provider — decided in Step 5 against: $0, real-time, managed, iPhone + Android.
+
+**GitHub learned:** Issues, Milestones, Labels — one issue per initiative.
+
+---
+
+## Step 5 — PRD (2026-11-02)
+
+**What:** One PRD for the MVP (`I-Initiatives/PRD-MVP.md`) covering I-01 + I-02, plus a decision record for the tech stack (`I-Initiatives/DEC-01-tech-stack.md`).
+
+**PRD highlights:**
+- 10 functional requirements (FR-1…FR-10), each traceable to a bet or hypothesis.
+- Tap budget per event: Sleep 1, Put-down 2, Activity 2, Feeding 3.
+- FR-9 (self-measurement) makes the hypotheses readable from day one — no metrics screen needed yet.
+- 4 open questions — a PRD with none hasn't been stress-tested.
+
+**Tech decision (approved):** Firebase (real-time + offline built in) · Google sign-in · GitHub Pages · React + TypeScript + Vite PWA. Deciding criterion: offline logging protects the North Star.
+
+**Structural flag accepted:** all hypotheses are Untested — the MVP is the test.
+
+**North Star redefined (same day):** Parent 1 decided put-down is optional — "fell asleep in arms" is logged as just "fell asleep". Complete sleep log = fell asleep + woke up (baseline 65%, target ≥ 95%). Trade-off accepted: less friction at night vs. slower data for Q2 (best bedtime), which now uses only sleeps that had a put-down.
+
+**Other answers:** ml presets 120 / 150 / 180; forgotten wake-up handled by a state-showing button + 6-hour rule; the tracker is now a Google Sheet, still in use — its link never enters the repo.
