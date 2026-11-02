@@ -102,3 +102,13 @@ How LavieTracker was built — each step, what was decided, and why.
 **North Star redefined (same day):** Parent 1 decided put-down is optional — "fell asleep in arms" is logged as just "fell asleep". Complete sleep log = fell asleep + woke up (baseline 65%, target ≥ 95%). Trade-off accepted: less friction at night vs. slower data for Q2 (best bedtime), which now uses only sleeps that had a put-down.
 
 **Other answers:** ml presets 120 / 150 / 180; forgotten wake-up handled by a state-showing button + 6-hour rule; the tracker is now a Google Sheet, still in use — its link never enters the repo.
+
+---
+
+## Step 6.1 — App skeleton + automatic deploy (2026-11-02)
+
+**What:** A minimal React + TypeScript + Vite app in `app/` (Hebrew, right-to-left, dark), and a GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds and publishes it to GitHub Pages on every push to `main`.
+
+**Why first:** Proves the whole pipeline — code → GitHub → live URL on both phones — before any feature exists. Every later step ships the same way.
+
+**GitHub learned:** GitHub Actions (a workflow file = instructions GitHub runs on its own servers), GitHub Pages (free hosting from the repo), the Actions tab (watching a deploy run).

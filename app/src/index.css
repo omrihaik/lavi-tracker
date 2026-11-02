@@ -1,0 +1,36 @@
+:root {
+  --bg: #121318;
+  --text: #e8e8ee;
+  --muted: #9a9cab;
+
+  font: 18px/1.5 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color-scheme: dark;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  margin: 0;
+}
+
+.home {
+  min-height: 100svh;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.home h1 {
+  margin: 0 0 12px;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.home p {
+  margin: 0;
+  color: var(--muted);
+}
