@@ -112,3 +112,20 @@ How LavieTracker was built — each step, what was decided, and why.
 **Why first:** Proves the whole pipeline — code → GitHub → live URL on both phones — before any feature exists. Every later step ships the same way.
 
 **GitHub learned:** GitHub Actions (a workflow file = instructions GitHub runs on its own servers), GitHub Pages (free hosting from the repo), the Actions tab (watching a deploy run).
+
+---
+
+## Step 6.2 — Fast logger (2026-11-02)
+
+**What:** The logging screen, on branch `feature/fast-logger` — FR-1 to FR-5 and FR-7 from the PRD. Data is stored on the phone only (localStorage); `app/src/store.ts` is the single place that changes in 6.3 when Firebase arrives.
+
+**Tap counts, tested in the browser:** Sleep 1 · Put-down 2 · Activity 2 · Feeding 3 — all within the ≤ 3 budget.
+
+**Also tested:** undo toast, edit/delete from today's list, the 6-hour wake-up rule, and FR-9 fields (`loggedBy`, `loggedAt`) on every event.
+
+**Design choices:**
+- Sleep is two events (`sleep_start` / `sleep_end`), not one record with a duration — logging never has to "find" an open record, and both parents can log either half.
+- Choices open in a bottom sheet — within thumb reach, one-handed.
+- 150 ml is highlighted as the common amount.
+
+**GitHub learned:** branches (`git switch -c`), pushing a branch, Pull Requests.
