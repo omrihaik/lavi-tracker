@@ -286,6 +286,37 @@ button:disabled {
   color: var(--danger);
 }
 
+/* Sign-in / no-access screen */
+.gate {
+  justify-content: center;
+  text-align: center;
+  gap: 14px;
+}
+
+.gate h1 {
+  margin: 0 0 8px;
+  font-size: 32px;
+}
+
+.gate p {
+  margin: 0;
+}
+
+.gate .primary {
+  flex: none;
+}
+
+.uid {
+  display: block;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--surface);
+  font-size: 14px;
+  direction: ltr;
+  word-break: break-all;
+  user-select: all;
+}
+
 /* Undo toast */
 .toast {
   position: fixed;

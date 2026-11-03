@@ -129,3 +129,18 @@ How LavieTracker was built — each step, what was decided, and why.
 - 150 ml is highlighted as the common amount.
 
 **GitHub learned:** branches (`git switch -c`), pushing a branch, Pull Requests.
+
+---
+
+## Step 6.3 — Sync between both phones (2026-11-02)
+
+**What:** Firebase (Firestore + Google sign-in) on branch `feature/sync`. Only `store.ts` changed its insides — the screens from 6.2 stayed the same. Events logged on a phone before sync are uploaded once on first sign-in.
+
+**Privacy and access, in layers:**
+1. **Firebase config** is public by design (it ships inside every browser). Kept out of the code anyway: `app/.env.local` locally (git-ignored), a GitHub secret in the deploy.
+2. **Access rules** (`app/firestore.rules`) are the real lock: only two anonymous user IDs can read or write. No names or emails in the repo.
+3. **Bootstrap:** a new account sees a "no access yet" screen showing its user ID → the ID goes into the rules → access granted.
+
+**Offline (FR-8):** Firestore's local cache keeps events logged without signal and syncs them later.
+
+**GitHub learned:** repository secrets — settings the deploy can use, never visible in the code or the logs.
