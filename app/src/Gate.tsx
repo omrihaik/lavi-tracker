@@ -1,11 +1,19 @@
 // FR-8: sign-in, and a clear screen when this Google account has no access yet.
-import { useState, type ReactNode } from 'react'
-import { signIn, signOut, useSession } from './store.ts'
+import { useEffect, useState, type ReactNode } from 'react'
+import { redirectResult, signIn, signOut, useSession } from './store.ts'
+
+// Show the real Firebase error code — "sign-in failed" alone can't be diagnosed.
+const errorText = (err: unknown) =>
+  `ההתחברות לא הצליחה (${(err as { code?: string }).code ?? 'unknown'}). נסו שוב.`
 
 export function Gate({ children }: { children: ReactNode }) {
   const session = useSession()
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    redirectResult.catch((err) => setError(errorText(err)))
+  }, [])
 
   if (session.status === 'ready') return children
 
@@ -20,7 +28,10 @@ export function Gate({ children }: { children: ReactNode }) {
           <p className="hint">התחברו פעם אחת בכל טלפון.</p>
           <button
             className="primary"
-            onClick={() => signIn().catch(() => setError('ההתחברות לא הצליחה. נסו שוב.'))}
+            onClick={() => {
+              setError('')
+              signIn().catch((err) => setError(errorText(err)))
+            }}
           >
             התחברות עם Google
           </button>

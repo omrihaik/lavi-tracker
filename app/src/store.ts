@@ -1,6 +1,13 @@
 // Event storage, shared between both phones through Firestore (FR-6, FR-8).
 // Same functions as the local-only version from 6.2 — the screens didn't change.
-import { onAuthStateChanged, signInWithPopup, signOut as fbSignOut, type User } from 'firebase/auth'
+import {
+  getRedirectResult,
+  onAuthStateChanged,
+  signInWithPopup,
+  signInWithRedirect,
+  signOut as fbSignOut,
+  type User,
+} from 'firebase/auth'
 import { collection, deleteDoc, doc, onSnapshot, setDoc, writeBatch } from 'firebase/firestore'
 import { useSyncExternalStore } from 'react'
 import { auth, db, googleProvider } from './firebase.ts'
@@ -65,7 +72,21 @@ async function migrateLegacy() {
   localStorage.removeItem(LEGACY_KEY)
 }
 
-export const signIn = () => signInWithPopup(auth, googleProvider)
+// Some mobile browsers (e.g. Samsung Internet) block the sign-in popup — fall back to a full-page redirect.
+const POPUP_FAILURES = ['auth/popup-blocked', 'auth/operation-not-supported-in-this-environment', 'auth/cancelled-popup-request']
+
+export async function signIn() {
+  try {
+    await signInWithPopup(auth, googleProvider)
+  } catch (err) {
+    const code = (err as { code?: string }).code ?? ''
+    if (POPUP_FAILURES.includes(code)) return signInWithRedirect(auth, googleProvider)
+    throw err
+  }
+}
+
+// Completes a redirect sign-in when the page loads again; errors surface on the sign-in screen.
+export const redirectResult = getRedirectResult(auth)
 export const signOut = () => fbSignOut(auth)
 
 export function addEvent(e: NewEvent): LogEvent {
