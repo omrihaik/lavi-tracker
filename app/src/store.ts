@@ -1,57 +1,92 @@
-// Event storage. For now: this phone only (localStorage).
-// Step 6.3 replaces the inside of this file with Firebase; the functions stay the same.
+// Event storage, shared between both phones through Firestore (FR-6, FR-8).
+// Same functions as the local-only version from 6.2 — the screens didn't change.
+import { onAuthStateChanged, signInWithPopup, signOut as fbSignOut, type User } from 'firebase/auth'
+import { collection, deleteDoc, doc, onSnapshot, setDoc, writeBatch } from 'firebase/firestore'
 import { useSyncExternalStore } from 'react'
+import { auth, db, googleProvider } from './firebase.ts'
 import type { LogEvent, NewEvent } from './types.ts'
 
-const EVENTS_KEY = 'lavie.events.v1'
-const DEVICE_KEY = 'lavie.device'
+export type Session =
+  | { status: 'loading' }
+  | { status: 'signed-out' }
+  | { status: 'no-access'; user: User }
+  | { status: 'ready'; user: User }
+
+const LEGACY_KEY = 'lavie.events.v1' // events logged on this phone before sync existed (6.2)
+const eventsRef = collection(db, 'events')
 
 const listeners = new Set<() => void>()
-let events: LogEvent[] = load()
+let events: LogEvent[] = []
+let session: Session = { status: 'loading' }
+let stopListening: (() => void) | null = null
 
-function load(): LogEvent[] {
-  try {
-    return JSON.parse(localStorage.getItem(EVENTS_KEY) ?? '[]') as LogEvent[]
-  } catch {
-    return []
-  }
-}
-
-function save(next: LogEvent[]) {
-  events = [...next].sort((a, b) => a.at - b.at)
-  try {
-    localStorage.setItem(EVENTS_KEY, JSON.stringify(events))
-  } catch {
-    // storage full or blocked — keep the in-memory copy
-  }
+function emit() {
   listeners.forEach((fn) => fn())
 }
 
-function deviceId(): string {
-  try {
-    let id = localStorage.getItem(DEVICE_KEY)
-    if (!id) {
-      id = crypto.randomUUID()
-      localStorage.setItem(DEVICE_KEY, id)
-    }
-    return id
-  } catch {
-    return 'unknown'
-  }
+function setSession(next: Session) {
+  session = next
+  emit()
 }
 
+onAuthStateChanged(auth, (user) => {
+  stopListening?.()
+  stopListening = null
+  events = []
+  if (!user) return setSession({ status: 'signed-out' })
+
+  setSession({ status: 'loading' })
+  stopListening = onSnapshot(
+    eventsRef,
+    (snap) => {
+      events = snap.docs.map((d) => d.data() as LogEvent).sort((a, b) => a.at - b.at)
+      if (session.status !== 'ready') {
+        setSession({ status: 'ready', user })
+        void migrateLegacy()
+      } else emit()
+    },
+    // Access rules reject anyone who isn't one of the two parents.
+    () => setSession({ status: 'no-access', user }),
+  )
+})
+
+/** One-time upload of events logged on this phone before sync existed. */
+async function migrateLegacy() {
+  let legacy: LogEvent[] = []
+  try {
+    legacy = JSON.parse(localStorage.getItem(LEGACY_KEY) ?? '[]') as LogEvent[]
+  } catch {
+    return
+  }
+  if (legacy.length === 0) return
+  const batch = writeBatch(db)
+  legacy.forEach((e) => batch.set(doc(eventsRef, e.id), e))
+  await batch.commit()
+  localStorage.removeItem(LEGACY_KEY)
+}
+
+export const signIn = () => signInWithPopup(auth, googleProvider)
+export const signOut = () => fbSignOut(auth)
+
 export function addEvent(e: NewEvent): LogEvent {
-  const created = { ...e, id: crypto.randomUUID(), loggedBy: deviceId(), loggedAt: Date.now() } as LogEvent
-  save([...events, created])
+  const ref = doc(eventsRef)
+  const created = { ...e, id: ref.id, loggedBy: auth.currentUser?.uid ?? 'unknown', loggedAt: Date.now() } as LogEvent
+  // Not awaited: the write lands in the local cache immediately and syncs when online.
+  void setDoc(ref, stripUndefined(created))
   return created
 }
 
 export function updateEvent(next: LogEvent) {
-  save(events.map((e) => (e.id === next.id ? next : e)))
+  void setDoc(doc(eventsRef, next.id), stripUndefined(next))
 }
 
 export function removeEvent(id: string) {
-  save(events.filter((e) => e.id !== id))
+  void deleteDoc(doc(eventsRef, id))
+}
+
+// Firestore rejects fields whose value is `undefined`.
+function stripUndefined<T extends object>(o: T): T {
+  return Object.fromEntries(Object.entries(o).filter(([, v]) => v !== undefined)) as T
 }
 
 function subscribe(fn: () => void) {
@@ -61,4 +96,8 @@ function subscribe(fn: () => void) {
 
 export function useEvents(): LogEvent[] {
   return useSyncExternalStore(subscribe, () => events)
+}
+
+export function useSession(): Session {
+  return useSyncExternalStore(subscribe, () => session)
 }

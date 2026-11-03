@@ -1,0 +1,19 @@
+rules_version = '2';
+
+// Only the two parents can read or write. Everyone else is rejected.
+// These are anonymous Firebase user IDs — no names or emails in this public repo.
+// To apply: Firebase console → Firestore → Rules → paste this file → Publish.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isParent() {
+      return request.auth != null && request.auth.uid in [
+        'PARENT_1_UID',
+        'PARENT_2_UID'
+      ];
+    }
+
+    match /events/{eventId} {
+      allow read, write: if isParent();
+    }
+  }
+}
