@@ -184,3 +184,21 @@ How LavieTracker was built — each step, what was decided, and why.
 **Tested in the browser at 375x812 and 360x640, with sample data:** buttons stay in place, the list scrolls, the undo message sits above the buttons, undo works, and the sleep button switches state. Not yet tested: a real phone in a dark room.
 
 **GitHub learned:** rolling back — phones get what's on `main`, so a design trial is a merge, and undoing it is GitHub's Revert button on the PR.
+
+---
+
+## Step 6.6 — First changes from real use (2026-11-04)
+
+**What:** Two requests from Parent 1 after using the app, on branch `feature/time-picker-auto-wake`.
+- **Typed time picker** replaces the phone's clock dial: one box for the hour, one for the minutes, 24-hour. It looks the same on Android and iPhone.
+- **Automatic wake-up:** saving a feeding while Lavie is marked asleep also logs "woke up".
+
+**Decisions:**
+- The wake-up is logged when the feeding is saved, not when Feeding is tapped, so closing the sheet logs nothing.
+- It is marked as automatic, because HYP-01 measures complete sleep logs and a filled-in wake-up shouldn't count the same as a tapped one without us being able to tell.
+- Feeding him in his sleep would wrongly end the sleep. Deleting the automatic row fixes it.
+- After 6 hours asleep the app asks for the time, so a forgotten sleep doesn't become a wrong long one.
+
+**Design lesson:** the first version used scroll wheels, built from a one-line request. A reference picture replaced it before it shipped. For UI requests, ask for an example before building.
+
+**Why this counts as proof:** the first requests from real use were about friction, not features. That is Bet 1 showing up in practice.

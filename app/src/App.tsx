@@ -6,7 +6,8 @@ import { ACTIVITIES, ML_COMMON, ML_PRESETS, RATINGS, describe, eventIcon, kindOf
 import { Choices, Sheet } from './Sheet.tsx'
 import { addEvent, removeEvent, useEvents } from './store.ts'
 import { HOUR, formatAgo, formatClock, formatDuration, startOfToday, useNow, withClock } from './time.ts'
-import type { LogEvent, NewEvent } from './types.ts'
+import { TimePicker } from './TimePicker.tsx'
+import type { LogEvent, NewEvent, Rating } from './types.ts'
 
 type Open =
   | null
@@ -18,11 +19,14 @@ type Open =
 
 const LONG_SLEEP = 6 * HOUR // FR-2: after 6 hours, ask for the actual wake-up time
 
+// What the undo toast shows and removes: the event, plus a wake-up the feeding filled in.
+type Toast = { event: LogEvent; wake?: LogEvent }
+
 function App() {
   const events = useEvents()
   const now = useNow()
   const [open, setOpen] = useState<Open>(null)
-  const [toast, setToast] = useState<LogEvent | null>(null)
+  const [toast, setToast] = useState<Toast | null>(null)
 
   useEffect(() => {
     if (!toast) return
@@ -35,8 +39,17 @@ function App() {
   const today = events.filter((e) => e.at >= startOfToday(now)).reverse()
 
   const log = (e: NewEvent) => {
-    setToast(addEvent(e))
+    setToast({ event: addEvent(e) })
     setOpen(null)
+  }
+
+  // FR-3: a feeding while he's marked asleep means he woke up. A long sleep asks for the time (FR-2).
+  const logFeed = (ml: number, rating: Rating) => {
+    const at = Date.now()
+    const longSleep = sleep.asleep && sleep.since !== null && at - sleep.since > LONG_SLEEP
+    const wake = sleep.asleep && !longSleep ? addEvent({ type: 'sleep_end', at: at - 1, auto: true }) : undefined
+    setToast({ event: addEvent({ type: 'feed', at, ml, rating }), wake })
+    setOpen(longSleep && sleep.since !== null ? { kind: 'wake', since: sleep.since } : null)
   }
 
   // FR-2: one tap — the button does whatever the current state calls for.
@@ -130,7 +143,7 @@ function App() {
       )}
       {open?.kind === 'feed' && open.ml && (
         <Sheet title={`${open.ml} מ״ל · איך הייתה ההאכלה?`} onClose={() => setOpen(null)}>
-          <Choices options={RATINGS} onPick={(rating) => log({ type: 'feed', at: Date.now(), ml: open.ml, rating })} />
+          <Choices options={RATINGS} onPick={(rating) => logFeed(open.ml as number, rating)} />
         </Sheet>
       )}
 
@@ -162,10 +175,14 @@ function App() {
       {/* FR-7: undo */}
       {toast && (
         <div className="toast" role="status">
-          <span>נשמר: {describe(toast)}</span>
+          <span>
+            נשמר: {toast.wake && 'התעורר + '}
+            {describe(toast.event)}
+          </span>
           <button
             onClick={() => {
-              removeEvent(toast.id)
+              removeEvent(toast.event.id)
+              if (toast.wake) removeEvent(toast.wake.id)
               setToast(null)
             }}
           >
@@ -180,22 +197,19 @@ function App() {
 function WakeSheet({ since, onSave, onClose }: { since: number; onSave: (e: NewEvent) => void; onClose: () => void }) {
   const now = useNow()
   const [clock, setClock] = useState(() => formatClock(now))
-  let at = withClock(now, clock)
+  let at = clock ? withClock(now, clock) : 0
   if (at > now) at -= 24 * HOUR // a time later than now means yesterday
-  const valid = clock !== '' && at > since
+  const valid = at > since
 
   return (
     <Sheet title={`ישן כבר ${formatDuration(now - since)}. מתי התעורר?`} onClose={onClose}>
-      <label className="field">
-        שעת התעוררות
-        <input type="time" value={clock} onChange={(e) => setClock(e.target.value)} />
-      </label>
+      <TimePicker value={clock} onChange={setClock} />
       <div className="sheet-actions">
         <button className="primary" disabled={!valid} onClick={() => onSave({ type: 'sleep_end', at })}>
           שמור
         </button>
       </div>
-      {!valid && <p className="hint">השעה מוקדמת משעת ההירדמות ({formatClock(since)})</p>}
+      {clock && !valid && <p className="hint">השעה מוקדמת משעת ההירדמות ({formatClock(since)})</p>}
     </Sheet>
   )
 }

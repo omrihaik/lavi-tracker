@@ -4,6 +4,7 @@ import { ACTIVITIES, ML_PRESETS, RATINGS, describe } from './labels.ts'
 import { Choices, Sheet } from './Sheet.tsx'
 import { removeEvent, updateEvent } from './store.ts'
 import { formatClock, withClock } from './time.ts'
+import { TimePicker } from './TimePicker.tsx'
 import type { LogEvent } from './types.ts'
 
 export function EditSheet({ event, onClose }: { event: LogEvent; onClose: () => void }) {
@@ -21,10 +22,7 @@ export function EditSheet({ event, onClose }: { event: LogEvent; onClose: () => 
 
   return (
     <Sheet title={describe(draft)} onClose={onClose}>
-      <label className="field">
-        שעה
-        <input type="time" value={clock} onChange={(e) => setClock(e.target.value)} />
-      </label>
+      <TimePicker value={clock} onChange={setClock} />
 
       {draft.type === 'feed' && (
         <>

@@ -25,7 +25,7 @@ export function describe(e: LogEvent): string {
     case 'sleep_start':
       return 'נרדם'
     case 'sleep_end':
-      return 'התעורר'
+      return e.auto ? 'התעורר · אוטומטי' : 'התעורר'
     case 'feed':
       return ['האכלה', e.ml && `${e.ml} מ״ל`, e.rating && ratingLabel(e.rating)].filter(Boolean).join(' · ')
     case 'putdown':

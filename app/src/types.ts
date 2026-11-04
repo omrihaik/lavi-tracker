@@ -11,7 +11,7 @@ type Base = {
 
 export type LogEvent =
   | (Base & { type: 'sleep_start' })
-  | (Base & { type: 'sleep_end' })
+  | (Base & { type: 'sleep_end'; auto?: boolean }) // auto: filled in by a feeding, not tapped (FR-3)
   | (Base & { type: 'feed'; ml?: number; rating?: Rating })
   | (Base & { type: 'putdown'; crying?: boolean })
   | (Base & { type: 'activity'; activity: ActivityKind })
