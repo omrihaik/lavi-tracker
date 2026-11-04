@@ -1,3 +1,4 @@
+import type { IconName } from './Icon.tsx'
 import type { ActivityKind, LogEvent, Rating } from './types.ts'
 
 export const ML_PRESETS = [120, 150, 180]
@@ -32,4 +33,15 @@ export function describe(e: LogEvent): string {
     case 'activity':
       return `פעילות · ${activityLabel(e.activity)}`
   }
+}
+
+/** The colour family of an event, shared by its button and its row in today's list. */
+export function kindOf(e: LogEvent): 'sleep' | 'feed' | 'putdown' | 'activity' {
+  return e.type === 'sleep_start' || e.type === 'sleep_end' ? 'sleep' : e.type
+}
+
+export function eventIcon(e: LogEvent): IconName {
+  if (e.type === 'sleep_start') return 'moon'
+  if (e.type === 'sleep_end') return 'sun'
+  return e.type
 }

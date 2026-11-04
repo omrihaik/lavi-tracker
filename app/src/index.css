@@ -7,10 +7,16 @@
   --muted: #9a9cab;
   --border: #2f3240;
 
+  /* Muted for use in a dark room: colour marks the type, it doesn't fill the screen */
   --sleep: #7c6cf0;
-  --feed: #e0a03a;
-  --putdown: #3fb6a8;
-  --activity: #5bbf6a;
+  --sleep-soft: #a99ff0;
+  --sleep-fill: #2a2650;
+  --feed: #c9a266;
+  --feed-line: #5c4a2a;
+  --putdown: #73b0a9;
+  --putdown-line: #2c5450;
+  --activity: #84b88c;
+  --activity-line: #34553a;
   --danger: #e2585b;
 
   font: 17px/1.45 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -78,61 +84,99 @@ button:disabled {
   font-weight: 650;
 }
 
+/* Icons */
+.icon {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: currentcolor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Home screen: status on top, the list scrolls, the buttons never move */
+.app.home {
+  height: 100svh;
+  overflow: hidden;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}
+
 /* Four big buttons */
 .buttons {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
+  flex: none;
 }
 
 .big {
-  min-height: 120px;
-  border-radius: 20px;
-  font-size: 24px;
+  height: 76px;
+  border-radius: 16px;
+  border: 1px solid;
+  background: var(--surface);
+  font-size: 20px;
   font-weight: 650;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  color: #121318;
+  gap: 10px;
 }
 
-.big small {
-  font-size: 15px;
-  font-weight: 500;
-  opacity: 0.8;
+.big .icon {
+  width: 24px;
+  height: 24px;
 }
 
 .big:active {
   transform: scale(0.97);
 }
 
-.sleep {
-  background: var(--sleep);
-  color: #fff;
+.big.sleep {
+  background: var(--sleep-fill);
+  border-color: var(--sleep);
 }
 
-.sleep.asleep {
-  background: #3a3270;
-  outline: 2px solid var(--sleep);
+.big.feed {
+  border-color: var(--feed-line);
 }
 
-.feed {
-  background: var(--feed);
+.big.putdown {
+  border-color: var(--putdown-line);
 }
 
-.putdown {
-  background: var(--putdown);
+.big.activity {
+  border-color: var(--activity-line);
 }
 
-.activity {
-  background: var(--activity);
+/* The same colour marks an event type on its button and in the list */
+.sleep .icon {
+  color: var(--sleep-soft);
+}
+
+.feed .icon {
+  color: var(--feed);
+}
+
+.putdown .icon {
+  color: var(--putdown);
+}
+
+.activity .icon {
+  color: var(--activity);
 }
 
 /* Today's list */
+.today {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
 .today h2 {
-  margin: 8px 0;
+  margin: 0 0 8px;
   font-size: 18px;
 }
 
@@ -140,6 +184,9 @@ button:disabled {
   list-style: none;
   margin: 0;
   padding: 0;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -151,7 +198,8 @@ button:disabled {
   border-radius: 12px;
   padding: 12px 14px;
   display: flex;
-  gap: 14px;
+  align-items: center;
+  gap: 12px;
   text-align: start;
 }
 
@@ -321,7 +369,7 @@ button:disabled {
 .toast {
   position: fixed;
   inset-inline: 16px;
-  bottom: calc(16px + env(safe-area-inset-bottom));
+  bottom: calc(188px + env(safe-area-inset-bottom));
   max-width: 488px;
   margin: 0 auto;
   background: var(--surface-2);
