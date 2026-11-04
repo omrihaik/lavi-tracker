@@ -67,6 +67,7 @@ Logging Lavie's day in a shared Excel is slow at the worst moments (3 a.m., one 
 - Tap Feeding → pick ml (presets 120 / **150** / 180 + "other"; 150 highlighted as most common) → pick Good / OK / Hard.
 - 3 taps.
 - ml and rating can be added later if skipped.
+- If Lavie is marked asleep, saving a feeding also logs "woke up" (added 2026-11-04). It is stored as automatic and shown as such in the list. Undo removes both; deleting the wake-up row keeps the feeding, which covers feeding him in his sleep. After 6 hours asleep, the app asks for the wake-up time instead (FR-2).
 
 ### FR-4 Put-down
 - Tap Put-down → pick crying Yes / No.
@@ -94,6 +95,7 @@ Logging Lavie's day in a shared Excel is slow at the worst moments (3 a.m., one 
 
 ### FR-9 Self-measurement
 - Every event stores: type, time, details, who logged it, when it was logged.
+- Automatic wake-ups are marked, so HYP-01 can count sleep logs with and without them.
 - Enough to compute HYP-01–03 metrics later — no metrics screen in the MVP.
 
 ### FR-10 Language and display

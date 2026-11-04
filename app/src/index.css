@@ -281,15 +281,6 @@ button:disabled {
   padding: 8px;
 }
 
-.field {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 17px;
-}
-
-.field input,
 .other input {
   font: inherit;
   font-size: 20px;
@@ -308,6 +299,55 @@ button:disabled {
 .other input {
   flex: 1;
   min-width: 0;
+}
+
+/* Time picker: hour and minute boxes, left to right even in Hebrew */
+.time-picker {
+  direction: ltr;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+}
+
+.time-picker label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.time-picker input {
+  width: 104px;
+  height: 76px;
+  border-radius: 14px;
+  border: 2px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font: inherit;
+  font-size: 40px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.time-picker input:focus {
+  outline: none;
+  border-color: var(--sleep);
+}
+
+.time-picker input.invalid {
+  border-color: var(--danger);
+}
+
+.time-colon {
+  height: 76px;
+  display: flex;
+  align-items: center;
+  font-size: 34px;
+  font-weight: 650;
 }
 
 .sheet-actions {
