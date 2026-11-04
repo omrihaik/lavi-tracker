@@ -158,4 +158,11 @@ How LavieTracker was built — each step, what was decided, and why.
 
 **Why it matters for the North Star:** an icon on the home screen removes the steps before the first tap — no browser, no URL, no tab to find at 3 a.m.
 
+**Result:** installed on both phones (Android through Chrome, iPhone through Safari). Sync confirmed both ways.
+
+**Debugging lessons from 6.4:**
+- *Check the live site before blaming the app.* The manifest, icons and service worker were all fine, so the problem was on the phone.
+- *The install browser matters.* Installing from Samsung Internet was blocked by Google Play Protect ("built for an older version of Android"). The same site installed through Chrome with no block. Setup rule: Chrome on Android, Safari on iPhone.
+- *Don't override a security warning to get past a step.* Changing browser fixed it; Play Protect stayed on.
+
 **GitHub learned:** closing the loop — merged PR → automatic deploy → the installed app updates itself.
