@@ -165,4 +165,6 @@ How LavieTracker was built — each step, what was decided, and why.
 - *The install browser matters.* Installing from Samsung Internet was blocked by Google Play Protect ("built for an older version of Android"). The same site installed through Chrome with no block. Setup rule: Chrome on Android, Safari on iPhone.
 - *Don't override a security warning to get past a step.* Changing browser fixed it; Play Protect stayed on.
 
+**Rollout decision:** the Google Sheet keeps running alongside the app for now. Parent 1 chose the lower risk of losing events over a clean first reading (recommendation was to switch off once the offline test passed). Trade-off: double logging, and the hypotheses can't be read until the Sheet stops. The stop date is still open, due at the week 1 review.
+
 **GitHub learned:** closing the loop — merged PR → automatic deploy → the installed app updates itself.
