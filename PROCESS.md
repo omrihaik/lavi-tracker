@@ -168,3 +168,19 @@ How LavieTracker was built — each step, what was decided, and why.
 **Rollout decision:** the Google Sheet keeps running alongside the app for now. Parent 1 chose the lower risk of losing events over a clean first reading (recommendation was to switch off once the offline test passed). Trade-off: double logging, and the hypotheses can't be read until the Sheet stops. The stop date is still open, due at the week 1 review.
 
 **GitHub learned:** closing the loop — merged PR → automatic deploy → the installed app updates itself.
+
+---
+
+## Step 6.5 — Design pass for night use (2026-11-04)
+
+**What:** The first deliberate design step. The look had come from the requirements while building, and nobody had reviewed it. On branch `feature/design`: muted dark buttons with colour only in the icon and border, buttons fixed at the bottom within thumb reach, sleep time shown once, and an icon and colour for each event type in today's list.
+
+**Process:** problems first, then a mockup beside the current screen, then approval, then code.
+
+**Unchanged:** the four actions and the tap counts (Sleep 1, Put-down 2, Activity 2, Feeding 3).
+
+**Why now:** the hypothesis clocks haven't started, so a layout change doesn't affect any reading.
+
+**Tested in the browser at 375x812 and 360x640, with sample data:** buttons stay in place, the list scrolls, the undo message sits above the buttons, undo works, and the sleep button switches state. Not yet tested: a real phone in a dark room.
+
+**GitHub learned:** rolling back — phones get what's on `main`, so a design trial is a merge, and undoing it is GitHub's Revert button on the PR.

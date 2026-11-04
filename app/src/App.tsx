@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { lastFeed, sleepState } from './derive.ts'
 import { EditSheet } from './EditSheet.tsx'
-import { ACTIVITIES, ML_COMMON, ML_PRESETS, RATINGS, describe } from './labels.ts'
+import { Icon } from './Icon.tsx'
+import { ACTIVITIES, ML_COMMON, ML_PRESETS, RATINGS, describe, eventIcon, kindOf } from './labels.ts'
 import { Choices, Sheet } from './Sheet.tsx'
 import { addEvent, removeEvent, useEvents } from './store.ts'
 import { HOUR, formatAgo, formatClock, formatDuration, startOfToday, useNow, withClock } from './time.ts'
@@ -46,7 +47,7 @@ function App() {
   }
 
   return (
-    <main className="app">
+    <main className="app home">
       {/* FR-6: live status */}
       <section className="status">
         <div>
@@ -61,27 +62,6 @@ function App() {
         </div>
       </section>
 
-      {/* FR-1: four big buttons */}
-      <section className="buttons">
-        <button className={sleep.asleep ? 'big sleep asleep' : 'big sleep'} onClick={tapSleep}>
-          {sleep.asleep ? 'התעורר' : 'נרדם'}
-          {sleep.since && (
-            <small>
-              {sleep.asleep ? 'ישן' : 'ער'} {formatDuration(now - sleep.since)}
-            </small>
-          )}
-        </button>
-        <button className="big feed" onClick={() => setOpen({ kind: 'feed' })}>
-          האכלה
-        </button>
-        <button className="big putdown" onClick={() => setOpen({ kind: 'putdown' })}>
-          השכבה
-        </button>
-        <button className="big activity" onClick={() => setOpen({ kind: 'activity' })}>
-          פעילות
-        </button>
-      </section>
-
       {/* FR-7: today's events, tap to edit */}
       <section className="today">
         <h2>היום</h2>
@@ -89,13 +69,34 @@ function App() {
         <ul>
           {today.map((e) => (
             <li key={e.id}>
-              <button onClick={() => setOpen({ kind: 'edit', event: e })}>
+              <button className={kindOf(e)} onClick={() => setOpen({ kind: 'edit', event: e })}>
+                <Icon name={eventIcon(e)} />
                 <span className="time">{formatClock(e.at)}</span>
                 <span>{describe(e)}</span>
               </button>
             </li>
           ))}
         </ul>
+      </section>
+
+      {/* FR-1: four big buttons, fixed at the bottom within thumb reach */}
+      <section className="buttons">
+        <button className="big sleep" onClick={tapSleep}>
+          <Icon name={sleep.asleep ? 'sun' : 'moon'} />
+          {sleep.asleep ? 'התעורר' : 'נרדם'}
+        </button>
+        <button className="big feed" onClick={() => setOpen({ kind: 'feed' })}>
+          <Icon name="feed" />
+          האכלה
+        </button>
+        <button className="big putdown" onClick={() => setOpen({ kind: 'putdown' })}>
+          <Icon name="putdown" />
+          השכבה
+        </button>
+        <button className="big activity" onClick={() => setOpen({ kind: 'activity' })}>
+          <Icon name="activity" />
+          פעילות
+        </button>
       </section>
 
       {/* FR-3: feeding — ml, then rating */}
