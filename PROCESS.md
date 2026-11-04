@@ -144,3 +144,18 @@ How LavieTracker was built — each step, what was decided, and why.
 **Offline (FR-8):** Firestore's local cache keeps events logged without signal and syncs them later.
 
 **GitHub learned:** repository secrets — settings the deploy can use, never visible in the code or the logs.
+
+**Debugging lessons from 6.3:**
+- *Green doesn't mean right.* The deploy passed with no secret at all — a missing secret is just an empty value. Checking the live bundle caught it.
+- *Show real error codes.* "Sign-in failed" hid the cause; showing the code (`auth/api-key-not-valid`) found it in one step.
+- *Don't move sensitive values through a chat.* The interface masked the key with dots and the dots were copied. Copy from the source instead.
+
+---
+
+## Step 6.4 — Install to the home screen (2026-11-04)
+
+**What:** Made the app an installable PWA (`vite-plugin-pwa`): name, moon icon, full-screen display, and a service worker so the app opens without signal (FR-8, FR-10).
+
+**Why it matters for the North Star:** an icon on the home screen removes the steps before the first tap — no browser, no URL, no tab to find at 3 a.m.
+
+**GitHub learned:** closing the loop — merged PR → automatic deploy → the installed app updates itself.
