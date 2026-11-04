@@ -7,8 +7,8 @@ service cloud.firestore {
   match /databases/{database}/documents {
     function isParent() {
       return request.auth != null && request.auth.uid in [
-        'PARENT_1_UID',
-        'PARENT_2_UID'
+        'VgerZgZfI3aMdQGVUveoNu8o8Ec2', // Parent 1 (Android)
+        'qEJMfmRxG6fMhTAig6Yc8Ol9G332' // Parent 2 (iPhone)
       ];
     }
 
