@@ -8,7 +8,7 @@ import {
   signOut as fbSignOut,
   type User,
 } from 'firebase/auth'
-import { collection, deleteDoc, doc, onSnapshot, setDoc, writeBatch } from 'firebase/firestore'
+import { collection, deleteDoc, doc, onSnapshot, setDoc, writeBatch, type DocumentData } from 'firebase/firestore'
 import { useSyncExternalStore } from 'react'
 import { auth, db, googleProvider } from './firebase.ts'
 import type { LogEvent, NewEvent } from './types.ts'
@@ -46,7 +46,7 @@ onAuthStateChanged(auth, (user) => {
   stopListening = onSnapshot(
     eventsRef,
     (snap) => {
-      events = snap.docs.map((d) => d.data() as LogEvent).sort((a, b) => a.at - b.at)
+      events = mergeImport(snap.docs.map((d) => d.data()))
       if (session.status !== 'ready') {
         setSession({ status: 'ready', user })
         void migrateLegacy()
@@ -56,6 +56,31 @@ onAuthStateChanged(auth, (user) => {
     () => setSession({ status: 'no-access', user }),
   )
 })
+
+// The Sheet's history lives in one document, so opening the app costs one read for it, not 1,100
+// (the free plan allows 50,000 reads a day). The app is the source of truth from its first event on.
+const IMPORT_ID = 'sheet-import'
+type ImportDoc = { kind: 'sheet-import'; payload: string }
+const isImport = (d: DocumentData): d is ImportDoc => d.kind === 'sheet-import'
+
+function mergeImport(docs: DocumentData[]): LogEvent[] {
+  const logged = docs.filter((d) => !isImport(d)) as LogEvent[]
+  const bundle = docs.find(isImport)
+  const firstLogged = Math.min(...logged.map((e) => e.at))
+  const imported = bundle ? (JSON.parse(bundle.payload) as Omit<LogEvent, 'loggedBy' | 'loggedAt'>[]) : []
+  const history = imported
+    .filter((e) => e.at < firstLogged)
+    .map((e) => ({ ...e, source: 'sheet', loggedBy: 'sheet', loggedAt: e.at }) as LogEvent)
+  return [...history, ...logged].sort((a, b) => a.at - b.at)
+}
+
+export function saveImport(history: LogEvent[]) {
+  void setDoc(doc(eventsRef, IMPORT_ID), { kind: 'sheet-import', payload: JSON.stringify(history) })
+}
+
+export function removeImport() {
+  void deleteDoc(doc(eventsRef, IMPORT_ID))
+}
 
 /** One-time upload of events logged on this phone before sync existed. */
 async function migrateLegacy() {

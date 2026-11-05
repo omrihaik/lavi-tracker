@@ -18,6 +18,12 @@ export function formatAgo(ms: number): string {
 }
 
 /** "03:15" */
+/** Minutes as hours and minutes: 750 → "12:30 ש׳". */
+export function formatHours(minutes: number): string {
+  const rounded = Math.round(minutes)
+  return `${Math.floor(rounded / 60)}:${String(rounded % 60).padStart(2, '0')} ש׳`
+}
+
 export function formatClock(ts: number): string {
   return new Date(ts).toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit', hour12: false })
 }

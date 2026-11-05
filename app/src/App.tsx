@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { lastFeed, sleepState } from './derive.ts'
 import { EditSheet } from './EditSheet.tsx'
+import { History } from './History.tsx'
 import { Icon } from './Icon.tsx'
+import { Insights } from './Insights.tsx'
 import { ACTIVITIES, ML_COMMON, ML_PRESETS, RATINGS, describe, eventIcon, kindOf } from './labels.ts'
 import { Choices, Sheet } from './Sheet.tsx'
 import { addEvent, removeEvent, useEvents } from './store.ts'
@@ -19,6 +21,13 @@ type Open =
 
 const LONG_SLEEP = 6 * HOUR // FR-2: after 6 hours, ask for the actual wake-up time
 
+type Tab = 'log' | 'history' | 'insights'
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'log', label: 'היום' },
+  { id: 'history', label: 'היסטוריה' },
+  { id: 'insights', label: 'תובנות' },
+]
+
 // What the undo toast shows and removes: the event, plus a wake-up the feeding filled in.
 type Toast = { event: LogEvent; wake?: LogEvent }
 
@@ -27,6 +36,7 @@ function App() {
   const now = useNow()
   const [open, setOpen] = useState<Open>(null)
   const [toast, setToast] = useState<Toast | null>(null)
+  const [tab, setTab] = useState<Tab>('log')
 
   useEffect(() => {
     if (!toast) return
@@ -61,56 +71,70 @@ function App() {
 
   return (
     <main className="app home">
-      {/* FR-6: live status */}
-      <section className="status">
-        <div>
-          <span className="label">אכל לאחרונה</span>
-          <strong>{feed ? formatAgo(now - feed.at) : '—'}</strong>
-          {feed?.ml && <span className="sub">{feed.ml} מ״ל</span>}
-        </div>
-        <div>
-          <span className="label">{sleep.asleep ? 'ישן' : 'ער'}</span>
-          <strong>{sleep.since ? formatDuration(now - sleep.since) : '—'}</strong>
-          {sleep.since && <span className="sub">מאז {formatClock(sleep.since)}</span>}
-        </div>
-      </section>
+      {tab === 'log' && (
+        <>
+          {/* FR-6: live status */}
+          <section className="status">
+            <div>
+              <span className="label">אכל לאחרונה</span>
+              <strong>{feed ? formatAgo(now - feed.at) : '—'}</strong>
+              {feed?.ml && <span className="sub">{feed.ml} מ״ל</span>}
+            </div>
+            <div>
+              <span className="label">{sleep.asleep ? 'ישן' : 'ער'}</span>
+              <strong>{sleep.since ? formatDuration(now - sleep.since) : '—'}</strong>
+              {sleep.since && <span className="sub">מאז {formatClock(sleep.since)}</span>}
+            </div>
+          </section>
 
-      {/* FR-7: today's events, tap to edit */}
-      <section className="today">
-        <h2>היום</h2>
-        {today.length === 0 && <p className="empty">עוד אין אירועים היום</p>}
-        <ul>
-          {today.map((e) => (
-            <li key={e.id}>
-              <button className={kindOf(e)} onClick={() => setOpen({ kind: 'edit', event: e })}>
-                <Icon name={eventIcon(e)} />
-                <span className="time">{formatClock(e.at)}</span>
-                <span>{describe(e)}</span>
-              </button>
-            </li>
-          ))}
-        </ul>
-      </section>
+          {/* FR-7: today's events, tap to edit */}
+          <section className="today">
+            <h2>היום</h2>
+            {today.length === 0 && <p className="empty">עוד אין אירועים היום</p>}
+            <ul className="rows">
+              {today.map((e) => (
+                <li key={e.id}>
+                  <button className={kindOf(e)} disabled={e.source === 'sheet'} onClick={() => setOpen({ kind: 'edit', event: e })}>
+                    <Icon name={eventIcon(e)} />
+                    <span className="time">{formatClock(e.at)}</span>
+                    <span>{describe(e)}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-      {/* FR-1: four big buttons, fixed at the bottom within thumb reach */}
-      <section className="buttons">
-        <button className="big sleep" onClick={tapSleep}>
-          <Icon name={sleep.asleep ? 'sun' : 'moon'} />
-          {sleep.asleep ? 'התעורר' : 'נרדם'}
-        </button>
-        <button className="big feed" onClick={() => setOpen({ kind: 'feed' })}>
-          <Icon name="feed" />
-          האכלה
-        </button>
-        <button className="big putdown" onClick={() => setOpen({ kind: 'putdown' })}>
-          <Icon name="putdown" />
-          השכבה
-        </button>
-        <button className="big activity" onClick={() => setOpen({ kind: 'activity' })}>
-          <Icon name="activity" />
-          פעילות
-        </button>
-      </section>
+          {/* FR-1: four big buttons, fixed at the bottom within thumb reach */}
+          <section className="buttons">
+            <button className="big sleep" onClick={tapSleep}>
+              <Icon name={sleep.asleep ? 'sun' : 'moon'} />
+              {sleep.asleep ? 'התעורר' : 'נרדם'}
+            </button>
+            <button className="big feed" onClick={() => setOpen({ kind: 'feed' })}>
+              <Icon name="feed" />
+              האכלה
+            </button>
+            <button className="big putdown" onClick={() => setOpen({ kind: 'putdown' })}>
+              <Icon name="putdown" />
+              השכבה
+            </button>
+            <button className="big activity" onClick={() => setOpen({ kind: 'activity' })}>
+              <Icon name="activity" />
+              פעילות
+            </button>
+          </section>
+        </>
+      )}
+      {tab === 'history' && <History events={events} onEdit={(event) => setOpen({ kind: 'edit', event })} />}
+      {tab === 'insights' && <Insights events={events} now={now} />}
+
+      <nav className="tabs">
+        {TABS.map((t) => (
+          <button key={t.id} className={t.id === tab ? 'selected' : undefined} onClick={() => setTab(t.id)}>
+            {t.label}
+          </button>
+        ))}
+      </nav>
 
       {/* FR-3: feeding — ml, then rating */}
       {open?.kind === 'feed' && !open.ml && (

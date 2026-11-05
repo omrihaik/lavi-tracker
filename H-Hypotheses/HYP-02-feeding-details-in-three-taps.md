@@ -29,7 +29,7 @@ Medium — the scope change (rating added) costs a tap; this checks we didn't br
 - Failure threshold: < 70% → make rating optional or allow adding details later from the live status.
 
 ## Status
-Untested
+Testing (started 2026-11-04, the day the Sheet stopped)
 
 ## Last Updated
 2026-10-01

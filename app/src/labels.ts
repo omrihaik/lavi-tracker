@@ -18,7 +18,7 @@ export const ACTIVITIES: { value: ActivityKind; label: string }[] = [
 ]
 
 const ratingLabel = (r: Rating) => RATINGS.find((x) => x.value === r)?.label ?? ''
-const activityLabel = (a: ActivityKind) => ACTIVITIES.find((x) => x.value === a)?.label ?? ''
+const activityLabel = (a: ActivityKind) => ACTIVITIES.find((x) => x.value === a)?.label ?? 'לא צוין'
 
 export function describe(e: LogEvent): string {
   switch (e.type) {
