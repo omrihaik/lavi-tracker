@@ -1,7 +1,7 @@
-# HYP-04 — Structured events answer all five questions with zero manual cleanup
+# HYP-04 — Structured events answer all three questions with zero manual cleanup
 
 > We believe the Excel can't answer our questions because of free text and missing fields, not because the questions are hard.
-> If every event is one of 4 fixed types with preset details, then after 14 days of use the insights screen will answer all five questions from app data alone, with no manual fixes.
+> If every event is one of 4 fixed types with preset details, then after 14 days of use the insights screen will answer all three questions from app data alone, with no manual fixes.
 
 ## Related Bet
 - Bet 3 — Structured events make insights automatic
@@ -24,8 +24,8 @@ Low — mostly an engineering question, once HYP-01 and HYP-02 deliver complete 
 - Duration: Day 14 check; repeat on day 28.
 
 ## Metric + Threshold
-- Metric: Number of the five questions answered with ≥ 5 data points each.
-- Success threshold: 5 / 5 on day 28.
+- Metric: Number of the three questions answered with ≥ 5 data points each (narrowed from five on 2026-11-05).
+- Success threshold: 3 / 3 on day 28.
 - Failure threshold: ≤ 3 / 5 on day 28 → drop or redefine the unanswered questions.
 
 ## Status

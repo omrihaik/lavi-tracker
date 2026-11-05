@@ -22,7 +22,7 @@ Update when a bet is confirmed or killed.
 
 ## Bet 3 — Structured events make insights automatic
 
-- **Why this matters:** Free text ("אכל", "אוכל", "האכלה") makes analysis impossible. With 4 fixed event types and preset details (no free text), the five questions can be answered automatically with zero manual cleanup.
+- **Why this matters:** Free text ("אכל", "אוכל", "האכלה") makes analysis impossible. With 4 fixed event types and preset details (no free text), the three questions can be answered automatically with zero manual cleanup.
 - **Who it serves:** Both parents, when looking back at the week.
-- **What success looks like:** The insights screen answers all five questions from app data alone — no Excel, no manual fixing.
+- **What success looks like:** The insights screen answers all three questions from app data alone — no Excel, no manual fixing.
 - **Time horizon:** Once 2 weeks of complete data exist

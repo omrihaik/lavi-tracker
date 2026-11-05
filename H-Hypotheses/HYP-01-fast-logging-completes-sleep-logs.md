@@ -31,7 +31,7 @@ High — this is the North Star. If it fails, every insight fails with it.
 2026-11-02 — Put-down made optional ("fell asleep in arms" needs no put-down). Metric changed from put-down + asleep + woke up (baseline 36%) to asleep + woke up (baseline 65%). Cost: Q2 (best bedtime) uses only sleeps that had a put-down.
 
 ## Status
-Untested
+Testing (started 2026-11-04, the day the Sheet stopped)
 
 ## Last Updated
 2026-11-02

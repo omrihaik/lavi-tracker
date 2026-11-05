@@ -180,7 +180,7 @@ button:disabled {
   font-size: 18px;
 }
 
-.today ul {
+.rows {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -192,7 +192,11 @@ button:disabled {
   gap: 6px;
 }
 
-.today li button {
+.rows button:disabled {
+  opacity: 1;
+}
+
+.rows button {
   width: 100%;
   background: var(--surface);
   border-radius: 12px;
@@ -203,7 +207,7 @@ button:disabled {
   text-align: start;
 }
 
-.today .time {
+.rows .time {
   color: var(--muted);
   font-variant-numeric: tabular-nums;
 }
@@ -212,6 +216,102 @@ button:disabled {
 .hint {
   color: var(--muted);
   margin: 0;
+}
+
+/* Tabs */
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  flex: none;
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 4px;
+}
+
+.tabs button {
+  height: 44px;
+  border-radius: 10px;
+  background: none;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.tabs button.selected {
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+/* History and Insights share one scrolling column */
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.history-day h2,
+.card h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.history-day .hint {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card strong {
+  font-size: 28px;
+  font-weight: 650;
+}
+
+.card .hint,
+.slots,
+.health {
+  font-size: 15px;
+}
+
+.card table {
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+.card th {
+  color: var(--muted);
+  font-weight: 500;
+  text-align: start;
+  padding: 4px 8px 4px 0;
+}
+
+.card td {
+  padding: 5px 8px 5px 0;
+  border-top: 1px solid var(--border);
+}
+
+.slots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--muted);
+}
+
+.health {
+  text-align: center;
 }
 
 /* Bottom sheet */
@@ -409,7 +509,7 @@ button:disabled {
 .toast {
   position: fixed;
   inset-inline: 16px;
-  bottom: calc(188px + env(safe-area-inset-bottom));
+  bottom: calc(252px + env(safe-area-inset-bottom));
   max-width: 488px;
   margin: 0 auto;
   background: var(--surface-2);

@@ -165,7 +165,7 @@ How LavieTracker was built — each step, what was decided, and why.
 - *The install browser matters.* Installing from Samsung Internet was blocked by Google Play Protect ("built for an older version of Android"). The same site installed through Chrome with no block. Setup rule: Chrome on Android, Safari on iPhone.
 - *Don't override a security warning to get past a step.* Changing browser fixed it; Play Protect stayed on.
 
-**Rollout decision:** the Google Sheet keeps running alongside the app for now. Parent 1 chose the lower risk of losing events over a clean first reading (recommendation was to switch off once the offline test passed). Trade-off: double logging, and the hypotheses can't be read until the Sheet stops. The stop date is still open, due at the week 1 review.
+**Rollout decision:** the Google Sheet keeps running alongside the app for now. Parent 1 chose the lower risk of losing events over a clean first reading (recommendation was to switch off once the offline test passed). Trade-off: double logging, and the hypotheses can't be read until the Sheet stops. The stop date is still open, due at the week 1 review. In practice the Sheet stopped the same day (2026-11-04), so no parallel run happened and the hypothesis clocks start on that date.
 
 **GitHub learned:** closing the loop — merged PR → automatic deploy → the installed app updates itself.
 
@@ -202,3 +202,21 @@ How LavieTracker was built — each step, what was decided, and why.
 **Design lesson:** the first version used scroll wheels, built from a one-line request. A reference picture replaced it before it shipped. For UI requests, ask for an example before building.
 
 **Why this counts as proof:** the first requests from real use were about friction, not features. That is Bet 1 showing up in practice.
+
+---
+
+## Step 7 — History, Insights and the Sheet import (2026-11-05)
+
+**What:** Two new tabs beside the logger. History lists every past day. Insights answers three questions: sleeping enough, getting better, best bedtime. `tools/convert_sheet.py` turns the Sheet into structured events.
+
+**Scope change:** Parent 1 narrowed Insights from five questions to three, and HYP-04's target moved to 3 / 3. Taps to log was retired as a KPI, because the design fixes it.
+
+**Decisions:**
+- Automatic wake-ups count toward the North Star, always shown beside the tapped share.
+- History is one scrolling list, not a day-by-day picker.
+- Imported rows are read-only and live in one document. The free plan allows 50,000 reads a day, and 1,100 separate documents would be read again on most app opens.
+- The import page is hidden in the live app. The file stays on the computer and goes only to the private database.
+
+**What the data taught us:** the Sheet's dates couldn't be trusted. About 150 rows shared one date, and 16 times were missing the 12 hours. The clock's order and the Sheet's last-edited time were more reliable than the date column.
+
+**Tested with made-up data only.** Real data stayed out of the app's folder.

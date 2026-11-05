@@ -145,12 +145,11 @@ All three are untested. The MVP is the test: FR-9 provides the data to read them
 
 | # | Question | Owner | Needed by |
 |---|---|---|---|
-| 1 | The Google Sheet and the app are running in parallel with no end date. On what date does the Sheet stop? | Parent 1 | Week 1 review (2026-11-11) |
 | 2 | Is "Other" ml needed, or are 120 / 150 / 180 enough? Check after week 1. | Parent 1 | Week 1 review |
 | 3 | Will put-down be logged often enough to answer Q2 (best bedtime)? Watch the put-down share. | Parent 1 | Week 2 review |
 
 ### Resolved (2026-11-04)
-- Google Sheet on release → run both for now (Parent 1). The hypothesis clocks start on the day the Sheet stops; HYP-01 to HYP-03 stay Untested until then.
+- Google Sheet on release → the plan was to run both, but the Sheet stopped on 2026-11-04, the day logging moved to the app. The hypothesis clocks start on that date.
 
 ### Resolved (2026-11-02)
 - ml presets → 120 / 150 / 180 + other; 150 is the common amount (every ~3 hours).

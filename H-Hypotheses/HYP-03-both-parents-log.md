@@ -29,7 +29,7 @@ High — Parent 2's profile comes from Parent 1's description, not a direct inte
 - Failure threshold: Either parent < 10% of events in week 2 → the app is a one-parent tool; rethink Parent 2's entry point.
 
 ## Status
-Untested
+Testing (started 2026-11-04, the day the Sheet stopped)
 
 ## Last Updated
 2026-10-01
