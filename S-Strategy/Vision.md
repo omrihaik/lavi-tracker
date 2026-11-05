@@ -23,6 +23,6 @@ LavieTracker replaces the spreadsheet with a phone-first logger that both parent
 - No "more data" for its own sake — only 4 event types (sleep, feeding, put-down, activity); bath and diapers are out
 - No durations or timers for activities — one tap that it happened
 - No free text — every detail is a preset choice
-- No dashboard per activity — one insights screen that answers the three questions
+- No dashboard per activity — one insights screen that answers the four questions
 - No comparison to age norms — Lavie is compared only to himself
 - No AI advice or recommendations on how to parent — the app shows patterns, we decide
