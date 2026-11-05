@@ -8,7 +8,7 @@ Update when your audience or product scope changes.
 
 ## Description (1–2 sentences)
 
-A shared, phone-first tracker for Lavie's sleep, feeding and activity. Two parents log events in 2–3 taps, see a live status ("last fed 2h 10m ago"), and get one insights screen that answers three questions.
+A shared, phone-first tracker for Lavie's sleep, feeding and activity. Two parents log events in 2–3 taps, see a live status ("last fed 2h 10m ago"), and get one insights screen that answers four questions.
 
 ## Target customer segment(s)
 
@@ -23,15 +23,16 @@ A shared, phone-first tracker for Lavie's sleep, feeding and activity. Two paren
 3. **Events get lost.** Both parents confirm logs are skipped (see baseline below).
 4. **The data can't answer our questions.** 23 free-text labels for ~6 event types, mixed date formats, no sleep duration.
 
-## The three questions the data must answer
+## The four questions the data must answer
 
 | # | Question | Measured as |
 |---|---|---|
 | 1 | Is he sleeping enough? | Total sleep per 24h vs. his own 7-day average (no age norms) |
 | 2 | What's the best bedtime? | Put-down time slot with the shortest put-down → asleep time (only sleeps that had a put-down) |
 | 3 | Is it getting better? | Week-over-week change in total sleep and time-to-fall-asleep |
+| 4 | How much did he eat? | Feedings per day, and ml per day only when ≥ 80% of feedings have an amount |
 
-Dropped: "Does bath time help?" — not needed. "How are feedings going?" and "Does activity help him sleep?" — removed from Insights on 2026-11-05; the events are still logged until the review around 2026-12-02.
+Dropped: "Does bath time help?" — not needed. "Does activity help him sleep?" — removed from Insights on 2026-11-05; the events are still logged until the review around 2026-12-02. Feeding ratings stay out of Insights.
 
 ## Event types (the only four)
 

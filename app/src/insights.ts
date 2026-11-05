@@ -6,6 +6,7 @@ const DAY = 24 * 60 * MINUTE
 const MAX_SLEEP = 14 * 60 * MINUTE // longer means a wake-up was never logged, not a real sleep
 const MAX_FALL_ASLEEP = 90 // minutes from put-down to asleep; longer means they weren't one attempt
 export const MIN_DATA_POINTS = 5
+const MIN_ML_SHARE = 0.8 // below this, a total would read as "ate less" when it only means "wasn't measured"
 
 export type Sleep = { start: number; end: number; auto: boolean }
 export type Attempt = { at: number; minutes: number }
@@ -116,6 +117,45 @@ export function weeks(events: LogEvent[], now: number, count = 6): Week[] {
       fallAsleep: weekTries.length >= MIN_DATA_POINTS ? average(weekTries) : null,
     }
   })
+}
+
+export type Food = {
+  feeds: number // feedings per day
+  ml: number | null // ml per day; null when too few feedings have an amount
+  measured: number // share of feedings with an amount, 0 to 100
+}
+
+function foodSummary(events: LogEvent[], from: number, end: number, days: number): Food | null {
+  const feeds = events.flatMap((e) => (e.type === 'feed' && e.at >= from && e.at < end ? [e] : []))
+  if (feeds.length === 0) return null
+  const amounts = feeds.flatMap((e) => (e.ml ? [e.ml] : []))
+  const share = amounts.length / feeds.length
+  return {
+    feeds: feeds.length / days,
+    ml: share >= MIN_ML_SHARE ? amounts.reduce((a, b) => a + b, 0) / days : null,
+    measured: Math.round(share * 100),
+  }
+}
+
+/** Q4: what he ate yesterday. */
+export function foodYesterday(events: LogEvent[], now: number): Food | null {
+  const today = dayStart(now)
+  return foodSummary(events, addDays(today, -1), today, 1)
+}
+
+export type FoodWeek = Food & { to: number }
+
+/** Q4: complete 7-day blocks, newest first, ending yesterday. Weeks with under 5 logged days are left out. */
+export function foodWeeks(events: LogEvent[], now: number, count = 6): FoodWeek[] {
+  const lastDay = addDays(dayStart(now), -1)
+  return Array.from({ length: count }, (_, i) => {
+    const to = addDays(lastDay, -7 * i)
+    const from = addDays(to, -6)
+    const end = addDays(to, 1)
+    const logged = new Set(events.filter((e) => e.type === 'feed' && e.at >= from && e.at < end).map((e) => dayStart(e.at)))
+    const food = logged.size >= MIN_DATA_POINTS ? foodSummary(events, from, end, logged.size) : null
+    return food && { ...food, to }
+  }).filter((w) => w !== null)
 }
 
 export type Slot = { from: number; to: number; minutes: number; count: number }
