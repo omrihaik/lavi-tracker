@@ -14,6 +14,7 @@ export function History({ events, onEdit }: { events: LogEvent[]; onEdit: (e: Lo
     const sleep = sleepByDay(sleeps(events))
     const byDay = new Map<number, LogEvent[]>()
     for (const e of [...events].reverse()) {
+      if (e.type === 'dose') continue // the daily checklist lives on the Today screen
       const key = dayStart(e.at)
       byDay.set(key, [...(byDay.get(key) ?? []), e])
     }

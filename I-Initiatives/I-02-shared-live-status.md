@@ -13,11 +13,12 @@
 - Login for exactly two users (free tier, no passwords to manage — e.g. email magic link)
 - Real-time sync: an event logged on one phone appears on the other within seconds
 - Live status above the log buttons: "Last fed 2h 10m ago · 120 ml" and "Asleep 40m" / "Awake 1h 15m"
+- Daily checklist (added 2026-11-09): vitamin D, Normalax, omeprazole, iron drops. One tick a day each, shared by both phones, unticked at midnight. Answers "did he get it yet?" without asking.
 - Installable to home screen on iPhone and Android (PWA)
 - Data stored outside the repo (public repo, private data)
 
 ## Out of scope
-- More than two users, invitations, roles, notifications
+- More than two users, invitations, roles, notifications, reminders for the checklist, doses more than once a day
 
 ## Linked Hypotheses
 - [[H-Hypotheses/HYP-03-both-parents-log]]
@@ -48,4 +49,4 @@ Yes
 - Does the live status need to work offline (e.g. no signal at night)?
 
 ## Last Updated
-2026-11-02
+2026-11-09

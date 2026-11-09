@@ -4,7 +4,7 @@ import { EditSheet } from './EditSheet.tsx'
 import { History } from './History.tsx'
 import { Icon } from './Icon.tsx'
 import { Insights } from './Insights.tsx'
-import { ACTIVITIES, ML_COMMON, ML_PRESETS, RATINGS, describe, eventIcon, kindOf } from './labels.ts'
+import { ACTIVITIES, DAILY, ML_COMMON, ML_PRESETS, RATINGS, describe, eventIcon, kindOf } from './labels.ts'
 import { Choices, Sheet } from './Sheet.tsx'
 import { addEvent, removeEvent, useEvents } from './store.ts'
 import { HOUR, formatAgo, formatClock, formatDuration, startOfToday, useNow, withClock } from './time.ts'
@@ -46,7 +46,8 @@ function App() {
 
   const sleep = sleepState(events)
   const feed = lastFeed(events)
-  const today = events.filter((e) => e.at >= startOfToday(now)).reverse()
+  const today = events.filter((e) => e.at >= startOfToday(now) && e.type !== 'dose').reverse()
+  const given = events.filter((e) => e.type === 'dose' && e.at >= startOfToday(now))
 
   const log = (e: NewEvent) => {
     setToast({ event: addEvent(e) })
@@ -85,6 +86,20 @@ function App() {
               <strong>{sleep.since ? formatDuration(now - sleep.since) : '—'}</strong>
               {sleep.since && <span className="sub">מאז {formatClock(sleep.since)}</span>}
             </div>
+          </section>
+
+          {/* Daily checklist: resets at midnight */}
+          <section className="daily">
+            {DAILY.map((d) => {
+              const tick = given.find((e) => e.type === 'dose' && e.item === d.id)
+              return (
+                <button key={d.id} className={tick ? 'done' : undefined} aria-pressed={!!tick} onClick={() => toggleDaily(given, d.id)}>
+                  <span className="box">{tick && <Icon name="check" />}</span>
+                  <span className="name">{d.label}</span>
+                  {tick && <span className="time">{formatClock(tick.at)}</span>}
+                </button>
+              )
+            })}
           </section>
 
           {/* FR-7: today's events, tap to edit */}
@@ -216,6 +231,13 @@ function App() {
       )}
     </main>
   )
+}
+
+// A tick saves a "dose" event; unticking removes today's (both, if both parents ticked at once).
+function toggleDaily(given: LogEvent[], item: string) {
+  const ticks = given.filter((e) => e.type === 'dose' && e.item === item)
+  if (ticks.length) return ticks.forEach((e) => removeEvent(e.id))
+  addEvent({ type: 'dose', at: Date.now(), item })
 }
 
 function WakeSheet({ since, onSave, onClose }: { since: number; onSave: (e: NewEvent) => void; onClose: () => void }) {
