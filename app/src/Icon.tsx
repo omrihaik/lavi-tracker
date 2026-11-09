@@ -1,7 +1,8 @@
-export type IconName = 'moon' | 'sun' | 'feed' | 'putdown' | 'activity'
+export type IconName = 'moon' | 'sun' | 'feed' | 'putdown' | 'activity' | 'check'
 
 // Outline icons from Lucide (ISC license), inlined so the app needs no icon package.
 const PATHS: Record<IconName, string[]> = {
+  check: ['M20 6 9 17l-5-5'],
   moon: ['M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z'],
   sun: [
     'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z',

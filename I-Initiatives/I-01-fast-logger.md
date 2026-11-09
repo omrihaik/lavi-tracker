@@ -20,7 +20,7 @@
 - Hebrew, right-to-left, dark mode, one-handed
 
 ## Out of scope
-- Timers, free text, notes, any event type beyond the four
+- Timers, free text, notes, any event type beyond the four (the daily checklist in I-02 is stored as events but is not a log button)
 
 ## Linked Hypotheses
 - [[H-Hypotheses/HYP-01-fast-logging-completes-sleep-logs]]

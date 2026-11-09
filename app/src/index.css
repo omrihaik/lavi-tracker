@@ -84,6 +84,66 @@ button:disabled {
   font-weight: 650;
 }
 
+/* Daily checklist */
+.daily {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.daily button {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  text-align: start;
+  min-height: 44px;
+}
+
+.daily .box {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border: 2px solid var(--muted);
+  border-radius: 6px;
+  display: grid;
+  place-items: center;
+}
+
+.daily .box .icon {
+  width: 16px;
+  height: 16px;
+  stroke-width: 3;
+}
+
+.daily .name {
+  flex: 1;
+}
+
+.daily .time {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.daily .done {
+  border-color: var(--activity-line);
+}
+
+.daily .done .box {
+  background: var(--activity);
+  border-color: var(--activity);
+  color: var(--bg);
+}
+
+.daily .done .name {
+  color: var(--muted);
+}
+
 /* Icons */
 .icon {
   width: 22px;
